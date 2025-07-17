@@ -11,6 +11,7 @@ warnings.filterwarnings("ignore")
 
 if __name__ == "__main__":
     while True:
+        print("bot runned")
         try:
             check_new_listings()
         except Exception as e:
