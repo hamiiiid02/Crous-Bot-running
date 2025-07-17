@@ -10,7 +10,6 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 warnings.filterwarnings("ignore")
 
 if __name__ == "__main__":
-    start_bot()
     while True:
         try:
             check_new_listings()
