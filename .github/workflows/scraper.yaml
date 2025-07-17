@@ -1,8 +1,6 @@
 name: Run Web Scraper
 
 on:
-  schedule:
-    - cron: '* * * * *'  # every minute (UTC)
   workflow_dispatch:        # allows manual run from the GitHub UI
 
 jobs:
