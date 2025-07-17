@@ -1,7 +1,10 @@
-FROM python:3.11-slim
+FROM debian:bullseye
 
-# Install dependencies
+# Install Python and tools
 RUN apt-get update && apt-get install -y \
+    python3 \
+    python3-pip \
+    python3-distutils \
     wget \
     unzip \
     curl \
@@ -12,7 +15,6 @@ RUN apt-get update && apt-get install -y \
     libfontconfig1 \
     libxss1 \
     libappindicator1 \
-    libindicator7 \
     fonts-liberation \
     libasound2 \
     libatk-bridge2.0-0 \
@@ -21,14 +23,19 @@ RUN apt-get update && apt-get install -y \
     chromium-driver
 
 # Set environment variables
+ENV PYTHONUNBUFFERED=1
 ENV CHROME_BIN=/usr/bin/chromium
 ENV CHROMEDRIVER_PATH=/usr/bin/chromedriver
 
-# Copy your app code
+# Set working directory
 WORKDIR /app
+
+# Copy project files
 COPY . .
 
 # Install Python dependencies
-RUN pip install -r requirements.txt
+RUN pip3 install --upgrade pip
+RUN pip3 install -r requirements.txt
 
-CMD ["python", "main.py"]
+# Start the app
+CMD ["python3", "main.py"]
