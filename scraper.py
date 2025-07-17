@@ -62,7 +62,7 @@ def check_new_listings():
                         area = d.text.strip()
                         break
 
-                if is_target_residence(name):
+                if not is_target_residence(name):
                     insert_logement(name, address, price, area, link)
                     send_telegram_alert(name, address, link)
                     print(f"✅ MATCHED: {name} | {price} | {area} | {address} | {link}")
