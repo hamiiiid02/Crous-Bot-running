@@ -65,12 +65,17 @@ def check_new_listings():
                         area = d.text.strip()
                         break
 
-                if not is_target_residence(name):
-                    insert_logement(name, address, price, area, link)
-                    send_telegram_alert(name, address, link)
-                    print(f"✅ MATCHED: {name} | {price} | {area} | {address} | {link}")
-                else:
-                    print(f"❌ Skipped: {name}")
+                # if not is_target_residence(name):
+                #     insert_logement(name, address, price, area, link)
+                #     send_telegram_alert(name, address, link)
+                #     print(f"✅ MATCHED: {name} | {price} | {area} | {address} | {link}")
+                # else:
+                #     print(f"❌ Skipped: {name}")
+
+                insert_logement(name, address, price, area, link)
+                send_telegram_alert(name, address, link)
+                print(f"✅ ADDED: {name} | {price} | {area} | {address} | {link}")
+
 
 
             except Exception as e:
