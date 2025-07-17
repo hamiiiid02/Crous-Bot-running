@@ -41,3 +41,16 @@ def send_telegram_alert(name, address, link):
     response = requests.post(url, data=payload)
     if response.status_code != 200:
         print("❌ Telegram error:", response.text)
+
+def start_bot():
+
+    url = f"https://api.telegram.org/bot{config.TELEGRAM_BOT_TOKEN}/sendMessage"
+    payload = {
+        'chat_id': config.TELEGRAM_CHAT_ID,
+        'text': "boot started",
+        'parse_mode': 'Markdown'
+    }
+
+    response = requests.post(url, data=payload)
+    if response.status_code != 200:
+        print("❌ Telegram error:", response.text)
