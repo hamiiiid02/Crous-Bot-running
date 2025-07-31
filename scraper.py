@@ -28,6 +28,7 @@ def create_driver():
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--log-level=3")
+    options.binary_location = "/usr/bin/chromium"  # Use system Chromium
 
     service = Service(ChromeDriverManager().install())
     return webdriver.Chrome(service=service, options=options)
