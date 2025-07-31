@@ -1,6 +1,6 @@
 FROM debian:bullseye
 
-# Install Python and tools
+# Install dependencies
 RUN apt-get update && apt-get install -y \
     python3 \
     python3-pip \
@@ -19,7 +19,8 @@ RUN apt-get update && apt-get install -y \
     libasound2 \
     libatk-bridge2.0-0 \
     libgtk-3-0 \
-    chromium \
+    chromium
+
 
 # Set environment variables
 ENV PYTHONUNBUFFERED=1
