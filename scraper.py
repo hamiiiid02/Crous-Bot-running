@@ -24,11 +24,16 @@ def is_target_residence(label):
 
 def create_driver():
     options = Options()
+    options.binary_location = "/usr/bin/chromium"
+
+    # ✅ Required flags for running Chrome in Docker
     options.add_argument("--headless")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
-    options.add_argument("--log-level=3")
-    options.binary_location = "/usr/bin/chromium"  # Use system Chromium
+    options.add_argument("--disable-gpu")
+    options.add_argument("--disable-software-rasterizer")
+    options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--remote-debugging-port=9222")  # <- prevents DevToolsActivePort crash
 
     service = Service(ChromeDriverManager().install())
     return webdriver.Chrome(service=service, options=options)
