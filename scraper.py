@@ -34,7 +34,8 @@ def create_driver():
     options.add_argument("--remote-debugging-port=9222")
 
     # Force WebDriverManager to use the Chromium version you already have
-    service = Service(ChromeDriverManager(version="120.0.6099.224").install())
+    service = Service(ChromeDriverManager(driver_version="120.0.6099.224").install())
+    
 
     return webdriver.Chrome(service=service, options=options)
 
