@@ -45,7 +45,7 @@ def create_driver():
     chromium_version = get_chromium_version()
     if chromium_version:
         major_version = chromium_version.split('.')[0]
-        service = Service(ChromeDriverManager(version=major_version).install())
+        service = Service(ChromeDriverManager(driver_version=major_version).install())
         return webdriver.Chrome(service=service, options=options)
     else:
         raise RuntimeError("Could not determine Chromium version")
