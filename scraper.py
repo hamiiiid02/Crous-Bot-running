@@ -22,21 +22,34 @@ def is_target_residence(label):
     label_normalized = label.strip().upper()
     return any(residence in label_normalized for residence in TARGET_RESIDENCES)
 
+import subprocess
+import re
+
+def get_chromium_version():
+    result = subprocess.run(["/usr/bin/chromium", "--version"], stdout=subprocess.PIPE)
+    version_output = result.stdout.decode("utf-8")
+    match = re.search(r"(\d+\.\d+\.\d+\.\d+)", version_output)
+    return match.group(1) if match else None
+
 def create_driver():
     options = Options()
     options.binary_location = "/usr/bin/chromium"
 
-    # ✅ Required flags for running Chrome in Docker
     options.add_argument("--headless")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--disable-gpu")
     options.add_argument("--disable-software-rasterizer")
-    options.add_argument("--disable-dev-shm-usage")
-    options.add_argument("--remote-debugging-port=9222")  # <- prevents DevToolsActivePort crash
+    options.add_argument("--remote-debugging-port=9222")
 
-    service = Service(ChromeDriverManager().install())
-    return webdriver.Chrome(service=service, options=options)
+    chromium_version = get_chromium_version()
+    if chromium_version:
+        major_version = chromium_version.split('.')[0]
+        service = Service(ChromeDriverManager(version=major_version).install())
+        return webdriver.Chrome(service=service, options=options)
+    else:
+        raise RuntimeError("Could not determine Chromium version")
+
 
 def check_new_listings():
     driver = None
