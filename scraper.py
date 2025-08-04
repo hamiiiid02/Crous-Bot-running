@@ -22,15 +22,6 @@ def is_target_residence(label):
     label_normalized = label.strip().upper()
     return any(residence in label_normalized for residence in TARGET_RESIDENCES)
 
-import subprocess
-import re
-
-def get_chromium_version():
-    result = subprocess.run(["/usr/bin/chromium", "--version"], stdout=subprocess.PIPE)
-    version_output = result.stdout.decode("utf-8")
-    match = re.search(r"(\d+\.\d+\.\d+\.\d+)", version_output)
-    return match.group(1) if match else None
-
 def create_driver():
     options = Options()
     options.binary_location = "/usr/bin/chromium"
@@ -42,13 +33,10 @@ def create_driver():
     options.add_argument("--disable-software-rasterizer")
     options.add_argument("--remote-debugging-port=9222")
 
-    chromium_version = get_chromium_version()
-    if chromium_version:
-        major_version = chromium_version.split('.')[0]
-        service = Service(ChromeDriverManager(driver_version=major_version).install())
-        return webdriver.Chrome(service=service, options=options)
-    else:
-        raise RuntimeError("Could not determine Chromium version")
+    # Force WebDriverManager to use the Chromium version you already have
+    service = Service(ChromeDriverManager(version="120.0.6099.224").install())
+
+    return webdriver.Chrome(service=service, options=options)
 
 
 def check_new_listings():
